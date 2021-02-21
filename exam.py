@@ -55,12 +55,6 @@ def hourly_trend_changes(series):
             l1.append(i)
 
     
-    
-
-    
-
-
-
 
 
 time_series_file = CSVTimeSeriesFile(name='data.csv')
