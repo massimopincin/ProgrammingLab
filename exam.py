@@ -74,8 +74,6 @@ def hourly_trend_changes(series):
                     l2[j]+=1
 
     return l2
-    
-
 
 time_series_file = CSVTimeSeriesFile(name='data.csv')
 time_series = time_series_file.get_data()
