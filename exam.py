@@ -1,14 +1,23 @@
+class ExamException(Exception):
+        pass
+
 class CSVTimeSeriesFile():
     def __init__(self,name):
         self.name=name
     def get_data(self):
         epoch=[]
 
-        myfile=open(self.name,"r")
+        try: 
+            myfile=open(self.name,"r")
+        except Exception as e:
+            raise Exception("Impossibile aprire il file, errore: {}".format(e))
         for i in myfile:
             elements=i.split(",")
             if elements[0]!="epoch":
-                elements[0]=int(elements[0])
+                if "." in elements[0]:
+                    elements[0]=int(round(float(elements[0])))
+                else:
+                    elements[0]=int(elements[0])
                 elements[1]=float(elements[1])
                 epoch.append(elements)
         pass
@@ -23,6 +32,7 @@ def hourly_trend_changes(series):
     inv2=[]
     hours=[]
     l1=[]
+    l2=[]
     inv2.append(0)
     for i in series:
         epoch.append(i[0])
@@ -54,13 +64,17 @@ def hourly_trend_changes(series):
         if i not in l1:
             l1.append(i)
 
+    for i in range(0,len(l1)):
+        l2.append(0)
+
+    for i in range(0,len(inv2)):
+        if inv2[i]==1:
+            for j in range(0,len(l1)):
+                if hours[i]==l1[j]:
+                    l2[j]+=1
+
+    return l2
     
-    
-
-    
-
-
-
 
 
 time_series_file = CSVTimeSeriesFile(name='data.csv')
